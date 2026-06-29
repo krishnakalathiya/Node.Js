@@ -1,17 +1,17 @@
 import mongoose from "mongoose";
 
-const uri = "mongodb+srv://krishna_db_user:krishna123@cluster0.jnwjus7.mongodb.net/?appName=Cluster0"
-
 const connectDB = async() => {
   try{
-    await mongoose.connect(uri)
-    console.log("MongoDB Connected Successfully.");
-  }catch(err){
-    console.error("MongoDB Connection Error :", err.message);
-    process.exit(1);
+    let connect = await mongoose.connect(`${process.env.MONGODB_URI}`, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    })
+    console.log(`MongoDB connected!! ${connect.connection.host}`);
+    
+  }catch(error){
+    console.log("MongoDb Connection Error" , error.message);
+    process.exit(1)
   }
 }
 
 export default connectDB
-
-

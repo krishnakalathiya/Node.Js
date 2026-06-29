@@ -1,19 +1,20 @@
-import express from 'express'
-import connectDB from './config/db.js'
-import Student from './models/studentModel.js'
+import express from "express";
+import dotenv from "dotenv";
+import connectDB from "./src/config/db.js";
 
-const port = 8001
+import dns from "dns";
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
-const app = express()
+dotenv.config({ path: "./.env" });
+const app = express();
+const port = 8001;
 
-app.use(express.json())
+connectDB();
 
+app.get("/", (req, res) => {
+    res.send("Server Running...");
+});
 
-app.get("/" , (req , res) => {
-  res.send("Server Running....")
-})
-
-app.listen(port , () => {
-  console.log(`Server start on port ${port}`);
-  connectDB()
-})
+app.listen(port, () => {
+    console.log(`Server Started on Port ${port}`);
+});
